@@ -1,0 +1,75 @@
+[project]
+name = "ml-service"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "didos",email = "didos@vestas.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi (>=0.128.2,<0.129.0)",
+    "uvicorn (>=0.40.0,<0.41.0)",
+    "scikit-learn (>=1.8.0,<2.0.0)",
+    "joblib (>=1.5.3,<2.0.0)",
+    "pydantic (>=2.12.5,<3.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry]
+name = "ml-service"
+packages = [
+    { include = "ml_service", from = "src" }
+]
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^9.0.2"
+mypy = "^1.19.1"
+ruff = "^0.15.0"
+black = "^26.1.0"
+
+[tool.black]
+line-length = 100
+target-version = ["py312"]
+# If you’re using the src/ layout:
+extend-exclude = ["tests/fixtures"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+# Lint only your source and tests:
+src = ["src", "tests"]
+# Enable/disable rules by code:
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]  # example: let Black handle line length
+
+[tool.ruff.lint.isort]
+# Ruff’s import sorter settings (replaces isort)
+known-first-party = ["ml_service"]
+force-sort-within-sections = true
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+# Point mypy at the src layout and your package:
+mypy_path = ["src"]
+packages = ["ml_service"]
+# Common ignores/tweaks:
+warn_unused_ignores = true
+warn_redundant_casts = true
+disallow_any_generics = true
+no_implicit_optional = true
+# If using Pydantic v2:
+plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-q"
+testpaths = ["tests"]
+pythonpath = ["src"]  # allow `import ml_service` in tests without installing
