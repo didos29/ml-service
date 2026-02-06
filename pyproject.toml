@@ -37,17 +37,16 @@ black = "^26.1.0"
 [tool.black]
 line-length = 100
 target-version = ["py312"]
-# If you’re using the src/ layout:
-extend-exclude = ["tests/fixtures"]
+extend-exclude = "tests/fixtures"
 
 [tool.ruff]
 line-length = 100
 target-version = "py312"
-# Lint only your source and tests:
 src = ["src", "tests"]
-# Enable/disable rules by code:
+
+[tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
-ignore = ["E501"]  # example: let Black handle line length
+ignore = ["E501"]
 
 [tool.ruff.lint.isort]
 # Ruff’s import sorter settings (replaces isort)
@@ -57,16 +56,14 @@ force-sort-within-sections = true
 [tool.mypy]
 python_version = "3.12"
 strict = true
-# Point mypy at the src layout and your package:
 mypy_path = ["src"]
 packages = ["ml_service"]
-# Common ignores/tweaks:
 warn_unused_ignores = true
 warn_redundant_casts = true
 disallow_any_generics = true
 no_implicit_optional = true
-# If using Pydantic v2:
 plugins = ["pydantic.mypy"]
+exclude = ["^tests$"]
 
 [tool.pytest.ini_options]
 minversion = "8.0"
